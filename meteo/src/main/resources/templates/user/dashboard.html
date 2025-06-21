@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} + ' - FormFlow Meteo'">ダッシュボード - FormFlow Meteo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f6fa;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .user-badge {
+            background-color: #28a745;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .welcome-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .welcome-section h2 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .dashboard-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 20px;
+        }
+
+        .dashboard-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .card-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .recent-applications {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-size: 20px;
+        }
+
+        .no-applications {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .main-container {
+                padding: 0 1rem;
+            }
+
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <h1>FormFlow Meteo</h1>
+            </div>
+            <div class="user-info">
+                <span class="user-name" th:text="${employee.nmEmployee}">ユーザー</span>
+                <span class="user-badge">従業員</span>
+                <a href="/logout" class="logout-btn">ログアウト</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <div class="main-container">
+        <!-- ウェルカムセクション -->
+        <div class="welcome-section">
+            <h2>ダッシュボードへようこそ</h2>
+            <p th:text="'こんにちは、' + ${employee.nmEmployee} + 'さん。申請書の作成や履歴確認ができます。'">
+                こんにちは、ユーザーさん。申請書の作成や履歴確認ができます。
+            </p>
+        </div>
+
+        <!-- ダッシュボードカード -->
+        <div class="dashboard-cards">
+            <div class="dashboard-card">
+                <h3>📝 申請書作成</h3>
+                <p>交通費申請や有給申請などの各種申請書を作成することができます。</p>
+                <a href="/user/apply" class="card-btn">申請書を作成する</a>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>📋 申請履歴</h3>
+                <p>過去に提出した申請書の一覧や承認状況を確認することができます。</p>
+                <a href="/user/applications" class="card-btn">申請履歴を見る</a>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>🏢 プロフィール</h3>
+                <p>ユーザー情報の確認や設定の変更を行うことができます。</p>
+                <a href="/user/profile" class="card-btn">プロフィール設定</a>
+            </div>
+        </div>
+
+        <!-- 最近の申請 -->
+        <div class="recent-applications">
+            <h3 class="section-title">最近の申請</h3>
+            <div class="no-applications">
+                まだ申請書を提出していません。<br>
+                「申請書作成」から新しい申請を始めましょう。
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
